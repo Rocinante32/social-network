@@ -5,6 +5,7 @@ const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bc");
 const db = require("./db");
+const csurf = require("csurf");
 
 app.use(compression());
 
@@ -23,6 +24,13 @@ app.use(
     }),
     express.json()
 );
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 //taken out of the post route "requireLoggedOutUser",
 

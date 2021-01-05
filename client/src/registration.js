@@ -1,6 +1,6 @@
 //registration will be a class component
 import { Component } from "react";
-import axios from "axios";
+import axios from "./axios";
 
 export default class Registration extends Component {
     constructor() {
