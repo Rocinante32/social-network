@@ -10,3 +10,9 @@ module.exports.addToDb = (firstName, lastName, email, hashedPw) => {
     const params = [firstName, lastName, email, hashedPw];
     return db.query(q, params);
 };
+
+module.exports.findByEmail = (email) => {
+    const q = `SELECT * FROM users WHERE email = ($1)`;
+    const params = [email];
+    return db.query(q, params);
+};

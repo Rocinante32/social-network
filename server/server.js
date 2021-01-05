@@ -6,6 +6,10 @@ const path = require("path");
 const { hash, compare } = require("./bc");
 const db = require("./db");
 const csurf = require("csurf");
+const cryptoRandomString = require("crypto-random-string");
+const secretCode = cryptoRandomString({
+    length: 6,
+});
 
 app.use(compression());
 
@@ -34,6 +38,8 @@ app.use(function (req, res, next) {
 
 //taken out of the post route "requireLoggedOutUser",
 
+////////////////  Register Route  /////////////////
+
 app.post("/registration", (req, res) => {
     const { first, last, email, password } = req.body;
     hash(password)
@@ -56,7 +62,30 @@ app.post("/registration", (req, res) => {
         });
 });
 
-//redirection
+////////////////  Login Route  /////////////////
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.findByEmail(email)
+        .then((dbEntry) => {
+            compare(password, dbEntry.rows[0].password).then((result) => {
+                if (result) {
+                    req.session.userId = dbEntry.rows[0].id;
+                    console.log("req id is: ", req.session.userId);
+                    res.json({ loggedIn: true });
+                } else {
+                    res.json({ error: true });
+                }
+            });
+        })
+        .catch((err) => {
+            console.log("error in compare POST /login", err);
+            res.json({ error: true });
+        });
+});
+
+//////////////// Redirect/Welcome Route /////////////////
+
 // cookie session needs to be added for this to work
 app.get("/welcome", (req, res) => {
     //if user is logged in

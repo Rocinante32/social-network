@@ -1,7 +1,5 @@
-//registration will be a class component
 import { Component } from "react";
 import axios from "./axios";
-import { Link, Router } from "react-router-dom";
 
 export default class Registration extends Component {
     constructor() {
@@ -10,10 +8,13 @@ export default class Registration extends Component {
     }
 
     handleChange(e) {
-        this.setState({
-            //name of input field: user input
-            [e.target.name]: e.target.value,
-        });
+        this.setState(
+            {
+                //name of input field: user input
+                [e.target.name]: e.target.value,
+            },
+            () => console.log("this.state in handleChange: ", this.state)
+        );
     }
 
     handleClick() {
@@ -22,7 +23,7 @@ export default class Registration extends Component {
         console.log("state of submit: ", this.state);
         const self = this;
         axios
-            .post("/registration", this.state)
+            .post("/login", this.state)
             .then((response) => {
                 console.log("response: ", response.data);
                 if (response.data.error) {
@@ -44,19 +45,7 @@ export default class Registration extends Component {
         return (
             <div>
                 {this.state.error && <p>Something went wrong</p>}
-                <h1>Registration</h1>
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="first"
-                    placeholder="first name"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="last"
-                    placeholder="last name"
-                    type="text"
-                />
+                <h1>Login</h1>
                 <input
                     onChange={(e) => this.handleChange(e)}
                     name="email"
@@ -70,9 +59,6 @@ export default class Registration extends Component {
                     type="password"
                 />
                 <button onClick={() => this.handleClick()}>submit</button>
-                <div>
-                    <Link to="/login">Click here to Log in!</Link>
-                </div>
             </div>
         );
     }
