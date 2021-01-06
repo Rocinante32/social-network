@@ -155,6 +155,26 @@ app.post("/password/reset/verify", (req, res) => {
         });
 });
 
+//////////////// User info Route /////////////////
+
+app.get("/user-info", (req, res) => {
+    //if user is logged in
+    console.log("req made to user info: ", req.session.userId);
+    db.findById(req.session.userId)
+        .then(({ rows }) => {
+            console.log("user info from db: ", rows);
+            res.json({
+                first: rows[0].first,
+                last: rows[0].last,
+                email: rows[0].email,
+                profile_pic: rows[0].profile_pic,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
 //////////////// Redirect/Welcome Route /////////////////
 
 // cookie session needs to be added for this to work

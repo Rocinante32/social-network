@@ -39,3 +39,9 @@ module.exports.updatePassword = (email, hashedPw) => {
     const params = [email, hashedPw];
     return db.query(q, params);
 };
+
+module.exports.findById = (id) => {
+    const q = `SELECT * FROM users WHERE id = ($1)`;
+    const params = [id];
+    return db.query(q, params);
+};
