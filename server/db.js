@@ -23,3 +23,19 @@ module.exports.addCodeToDb = (email, code) => {
     const params = [email, code];
     return db.query(q, params);
 };
+
+module.exports.checkReset = (email) => {
+    const q = ` SELECT * FROM reset_codes
+    WHERE CURRENT_TIMESTAMP - timestamp  < INTERVAL '10 minutes' AND email = ($1);
+    `;
+    const params = [email];
+    return db.query(q, params);
+};
+
+module.exports.updatePassword = (email, hashedPw) => {
+    const q = `UPDATE users 
+                SET password= $2
+                WHERE email = $1`;
+    const params = [email, hashedPw];
+    return db.query(q, params);
+};

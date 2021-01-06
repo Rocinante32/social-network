@@ -10,9 +10,6 @@ const csurf = require("csurf");
 /////// code generation for password reset ////////
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
-const secretCode = cryptoRandomString({
-    length: 6,
-});
 
 app.use(compression());
 
@@ -91,6 +88,9 @@ app.post("/login", (req, res) => {
 
 app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
+    const secretCode = cryptoRandomString({
+        length: 6,
+    });
     db.findByEmail(email)
         .then((dbEntry) => {
             console.log("dbEntry in post return: ", dbEntry.rows[0]);
@@ -99,12 +99,12 @@ app.post("/password/reset/start", (req, res) => {
                     console.log("code added to db, code is: ", rows[0].code);
                     sendEmail(
                         "wilf06@hotmail.co.uk",
-                        rows[0].code,
+                        `Your reset code is: ${rows[0].code}`,
                         "Password Reset"
                     )
                         .then(() => {
                             console.log("then block after email hit");
-                            res.redirect("/");
+                            res.json({ view: 2 });
                         })
                         .catch((err) => {
                             console.log("error in send email: ", err);
@@ -114,19 +114,43 @@ app.post("/password/reset/start", (req, res) => {
                 console.log("no matching email in db");
                 res.json({ error: true });
             }
-
-            // compare(password, dbEntry.rows[0].password).then((result) => {
-            //     if (result) {
-            //         req.session.userId = dbEntry.rows[0].id;
-            //         console.log("req id is: ", req.session.userId);
-            //         res.json({ loggedIn: true });
-            //     } else {
-            //         res.json({ error: true });
-            //     }
-            // });
         })
         .catch((err) => {
             console.log("error in password reset: ", err);
+            res.json({ error: true });
+        });
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    console.log("post req made to verify: ", req.body);
+    const { email, code, password } = req.body;
+    db.checkReset(email)
+        .then((dbEntry) => {
+            console.log("length is: ", dbEntry.rows.length);
+            console.log("dbEntry from checkReset: ", [
+                dbEntry.rows[dbEntry.rows.length - 1],
+            ]);
+            const dbCode = dbEntry.rows[dbEntry.rows.length - 1].code;
+            if (code === dbCode) {
+                hash(password)
+                    .then((hash) => {
+                        console.log("hash pass: ", hash);
+                        db.updatePassword(email, hash).then(() => {
+                            console.log("password updated");
+                            res.json({ view: 3 });
+                        });
+                    })
+                    .catch((err) => {
+                        console.log("err in update pass: ", err);
+                        res.json({ error: true });
+                    });
+            } else {
+                console.log("codes dont match");
+                res.json({ error: true });
+            }
+        })
+        .catch((err) => {
+            console.log("error in db query: ", err);
             res.json({ error: true });
         });
 });
