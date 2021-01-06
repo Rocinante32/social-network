@@ -6,7 +6,10 @@ const path = require("path");
 const { hash, compare } = require("./bc");
 const db = require("./db");
 const csurf = require("csurf");
+
+/////// code generation for password reset ////////
 const cryptoRandomString = require("crypto-random-string");
+const { sendEmail } = require("./ses");
 const secretCode = cryptoRandomString({
     length: 6,
 });
@@ -80,6 +83,50 @@ app.post("/login", (req, res) => {
         })
         .catch((err) => {
             console.log("error in compare POST /login", err);
+            res.json({ error: true });
+        });
+});
+
+////////////////  Password Reset Route  /////////////////
+
+app.post("/password/reset/start", (req, res) => {
+    const { email } = req.body;
+    db.findByEmail(email)
+        .then((dbEntry) => {
+            console.log("dbEntry in post return: ", dbEntry.rows[0]);
+            if (dbEntry.rows[0]) {
+                db.addCodeToDb(email, secretCode).then(({ rows }) => {
+                    console.log("code added to db, code is: ", rows[0].code);
+                    sendEmail(
+                        "wilf06@hotmail.co.uk",
+                        rows[0].code,
+                        "Password Reset"
+                    )
+                        .then(() => {
+                            console.log("then block after email hit");
+                            res.redirect("/");
+                        })
+                        .catch((err) => {
+                            console.log("error in send email: ", err);
+                        });
+                });
+            } else {
+                console.log("no matching email in db");
+                res.json({ error: true });
+            }
+
+            // compare(password, dbEntry.rows[0].password).then((result) => {
+            //     if (result) {
+            //         req.session.userId = dbEntry.rows[0].id;
+            //         console.log("req id is: ", req.session.userId);
+            //         res.json({ loggedIn: true });
+            //     } else {
+            //         res.json({ error: true });
+            //     }
+            // });
+        })
+        .catch((err) => {
+            console.log("error in password reset: ", err);
             res.json({ error: true });
         });
 });

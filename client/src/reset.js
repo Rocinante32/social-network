@@ -1,11 +1,12 @@
 import { Component } from "react";
 import axios from "./axios";
-import { Link } from "react-router-dom";
 
-export default class Registration extends Component {
+export default class Reset extends Component {
     constructor() {
         super();
-        this.state = {};
+        this.state = {
+            view: 1,
+        };
     }
 
     handleChange(e) {
@@ -24,7 +25,7 @@ export default class Registration extends Component {
         console.log("state of submit: ", this.state);
         const self = this;
         axios
-            .post("/login", this.state)
+            .post("/password/reset/start", this.state)
             .then((response) => {
                 console.log("response: ", response.data);
                 if (response.data.error) {
@@ -33,7 +34,7 @@ export default class Registration extends Component {
                     self.setState({ error: true });
                 } else {
                     console.log("no error :)");
-                    location.replace("/");
+                    self.setState({ view: 2 });
                 }
             })
             .catch(function (err) {
@@ -46,23 +47,14 @@ export default class Registration extends Component {
         return (
             <div>
                 {this.state.error && <p>Something went wrong</p>}
-                <h1>Login</h1>
+                <h1>Please enter your email address</h1>
                 <input
                     onChange={(e) => this.handleChange(e)}
                     name="email"
                     placeholder="email"
                     type="text"
                 />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="password"
-                    placeholder="password"
-                    type="password"
-                />
                 <button onClick={() => this.handleClick()}>submit</button>
-                <div>
-                    <Link to="/reset">Click here to reset your password</Link>
-                </div>
             </div>
         );
     }

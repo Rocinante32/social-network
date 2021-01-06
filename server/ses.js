@@ -1,4 +1,3 @@
-const { SES } = require("aws-sdk");
 const aws = require("aws-sdk");
 
 let secrets;
@@ -15,7 +14,6 @@ const ses = new aws.SES({
 });
 
 exports.sendEmail = function (recipient, message, subject) {
-    //this function will send the email on our behalf
     return ses
         .sendEmail({
             Source: "Tom Wilson <wilf06@hotmail.co.uk>",
@@ -34,6 +32,6 @@ exports.sendEmail = function (recipient, message, subject) {
             },
         })
         .promise()
-        .then(() => console.log("It worked"))
-        .catch((err) => console.log("err in sendEmail: ", err));
+        .then(() => console.log("ses mail sent!"))
+        .catch((err) => console.log("error in ses", err));
 };
