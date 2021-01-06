@@ -20,6 +20,6 @@ module.exports.findByEmail = (email) => {
 module.exports.addCodeToDb = (email, code) => {
     const q = `INSERT INTO reset_codes ( email, code)
     VALUES ($1, $2) RETURNING code`;
-    const params = [ email, code];
+    const params = [email, code];
     return db.query(q, params);
 };
