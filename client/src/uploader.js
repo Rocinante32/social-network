@@ -1,11 +1,5 @@
 import { Component } from "react";
-
-/*
-    Uploader's jobs:
-    1. store the image the user selected in its own state 
-    2. send the file to the server 
-    3. let App know that there's a new profile picture, and that App needs to update its own state
-*/
+import axios from "./axios";
 
 export default class Uploader extends Component {
     constructor(props) {
@@ -13,19 +7,46 @@ export default class Uploader extends Component {
         this.state = {};
     }
 
-    handleClick() {
-        // setImage is called in Uploader but it runs in App!
-        // this means it is updating the state of App even though it's not called in App
-        this.props.setImage(
-            "I'm an argument being passed from Uploader to App"
-        );
+    handleChange(e) {
+        console.log("e target ", e.target.files[0]);
+        this.setState({
+            file: e.target.files[0],
+        });
+        console.log("state after update ", this.state);
+    }
+
+    handleUpload(e) {
+        //prevent default behaviour of button ( use e.preventDefault() )
+        e.preventDefault();
+        console.log("file: ", this.state.file);
+        const self = this;
+        //POST data to upload path with axios
+        const formData = new FormData();
+        formData.append("image", this.state.file);
+        console.log("formData submitted: ", formData);
+        axios
+            .post("/upload", formData)
+            .then((res) => {
+                console.log("aws res: ", res.data.url);
+                self.props.setImage(res.data.url);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
     }
 
     render() {
         console.log("this.props in Uploader: ", this.props);
         return (
             <div>
-                <h1 onClick={() => this.handleClick()}>uploader</h1>
+                <p>Select a profile picture</p>
+                <input
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => this.handleChange(e)}
+                />
+                <button onClick={(e) => this.handleUpload(e)}>Submit</button>
             </div>
         );
     }

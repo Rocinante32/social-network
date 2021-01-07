@@ -27,7 +27,7 @@ export default class App extends Component {
         */
         console.log("newProfilePic: ", newProfilePic);
         this.setState({
-            profile_pic: "",
+            profile_pic: newProfilePic,
         });
     }
 
@@ -58,12 +58,16 @@ export default class App extends Component {
                 <ProfilePic
                     first={this.state.first}
                     last={this.state.last}
-                    pic={this.state.profile_pic}
+                    profile_pic={this.state.profile_pic}
+                    toggleUploader={() => this.toggleUploader()}
                 />
-                <h2 onClick={() => this.toggleUploader()}>
-                    for demo purposes click me to toggle uploader!
-                </h2>
-                <Uploader />
+                {this.state.uploaderIsVisible && (
+                    <Uploader
+                        setImage={(newProfilePic) =>
+                            this.setImage(newProfilePic)
+                        }
+                    />
+                )}
             </div>
         );
     }

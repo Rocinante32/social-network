@@ -6,10 +6,33 @@ const path = require("path");
 const { hash, compare } = require("./bc");
 const db = require("./db");
 const csurf = require("csurf");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
 
 /////// code generation for password reset ////////
 const cryptoRandomString = require("crypto-random-string");
 const { sendEmail } = require("./ses");
+
+/////// multer for handling file uploads ////////
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 2097152, //2mb
+    },
+});
 
 app.use(compression());
 
@@ -173,6 +196,30 @@ app.get("/user-info", (req, res) => {
         .catch((err) => {
             console.log(err);
         });
+});
+
+//////////////// Profile pic Route /////////////////
+
+app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
+    console.log("req is: ", req.body);
+    const url = s3Url + req.file.filename;
+    console.log("post req made, and the url is: ", url);
+    const id = req.session.userId;
+    console.log("id: ", id);
+    /////////////////////// db query to add pic to user entry ////////////////
+    if (req.file) {
+        db.addImage(url, id)
+            .then((response) => {
+                console.log("res is : ", response);
+                console.log("added to db");
+                res.json({ url });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        res.json({ success: false });
+    }
 });
 
 //////////////// Redirect/Welcome Route /////////////////

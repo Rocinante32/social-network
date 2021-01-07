@@ -45,3 +45,12 @@ module.exports.findById = (id) => {
     const params = [id];
     return db.query(q, params);
 };
+
+module.exports.addImage = (url, id) => {
+    const q = `UPDATE users 
+                SET profile_pic= $1
+                WHERE id = $2
+                RETURNING profile_pic`;
+    const params = [url, id];
+    return db.query(q, params);
+};
