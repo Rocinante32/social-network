@@ -1,5 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
+import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
@@ -26,8 +27,18 @@ export default class App extends Component {
                 - The result is that the state of App will be updated 
         */
         console.log("newProfilePic: ", newProfilePic);
+        this.setState(
+            {
+                profile_pic: newProfilePic,
+            },
+            this.toggleUploader()
+        );
+    }
+
+    updateBio(newInfo) {
+        console.log("new bio info: ", newInfo);
         this.setState({
-            profile_pic: newProfilePic,
+            bio: newInfo,
         });
     }
 
@@ -42,6 +53,7 @@ export default class App extends Component {
                     last: response.data.last,
                     email: response.data.email,
                     profile_pic: response.data.profile_pic,
+                    bio: response.data.bio,
                 });
                 console.log("user data retrieved");
                 console.log("state after db query", this.state);
@@ -54,13 +66,21 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <p>This is the app LOGO</p>
+                <p id="logo">This is the app LOGO</p>
                 <ProfilePic
                     first={this.state.first}
                     last={this.state.last}
                     profile_pic={this.state.profile_pic}
                     toggleUploader={() => this.toggleUploader()}
                 />
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    profile_pic={this.state.profile_pic}
+                    bio={this.state.bio}
+                    updateBio={() => this.toggleUploader()}
+                />
+
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         setImage={(newProfilePic) =>

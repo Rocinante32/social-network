@@ -54,3 +54,11 @@ module.exports.addImage = (url, id) => {
     const params = [url, id];
     return db.query(q, params);
 };
+
+module.exports.updateBio = (id, bio) => {
+    const q = `UPDATE users 
+                SET bio= $2
+                WHERE id = $1`;
+    const params = [id, bio];
+    return db.query(q, params);
+};

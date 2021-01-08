@@ -1,3 +1,36 @@
 body {
     background-color: ghostwhite;
 }
+
+#logo {
+    display: inline;
+    width: max-content;
+}
+.pic-div {
+    height: 150px;
+    width: 150px;
+    text-align: center;
+    float: right;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    float: right;
+}
+
+#profile .pic-div {
+    float: none;
+    /* width: 45%; */
+    width: max-content;
+}
+#profile img {
+    width: 250px;
+    height: 250px;
+}
+
+#profile {
+    width: 60%;
+    margin: auto;
+}

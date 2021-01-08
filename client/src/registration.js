@@ -18,8 +18,6 @@ export default class Registration extends Component {
 
     handleClick() {
         //send off user input to the server using axios POST registration
-        console.log("button clicked");
-        console.log("state of submit: ", this.state);
         const self = this;
         axios
             .post("/registration", this.state)

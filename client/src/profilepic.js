@@ -6,19 +6,13 @@ export default function ProfilePic({
     profile_pic,
     toggleUploader,
 }) {
-    console.log(
-        "props in ProfilePic: ",
-        first,
-        last,
-        profile_pic,
-        toggleUploader
-    );
     return (
-        <div>
+        <div className="pic-div">
             {!profile_pic && (
                 <img
                     src="../default-profile.png"
                     alt="default pic"
+                    className="profile-pic"
                     onClick={() => toggleUploader()}
                 />
             )}
@@ -27,6 +21,7 @@ export default function ProfilePic({
                 <img
                     src={profile_pic}
                     alt={(first, last)}
+                    className="profile-pic"
                     onClick={() => toggleUploader()}
                 />
             )}

@@ -191,6 +191,7 @@ app.get("/user-info", (req, res) => {
                 last: rows[0].last,
                 email: rows[0].email,
                 profile_pic: rows[0].profile_pic,
+                bio: rows[0].bio,
             });
         })
         .catch((err) => {
@@ -220,6 +221,22 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
     } else {
         res.json({ success: false });
     }
+});
+
+//////////////// Profile bio Route /////////////////
+
+app.post("/bio", (req, res) => {
+    console.log("post route hit: ", req.body);
+    const bio = req.body.draftBio;
+    console.log("bio var is: ", bio);
+    db.updateBio(req.session.userId, bio)
+        .then((response) => {
+            console.log("bio added to db: ", response);
+            res.send(response);
+        })
+        .catch((err) => {
+            console.log("err adding to db: ", err);
+        });
 });
 
 //////////////// Redirect/Welcome Route /////////////////
