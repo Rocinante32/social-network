@@ -9,7 +9,6 @@ export default class BioEditor extends Component {
             textareaVisible: false,
             draftBio: "",
         };
-        this.toggleTextarea = this.toggleTextarea.bind(this);
     }
     toggleTextarea() {
         if (this.props.bio) {
@@ -43,7 +42,7 @@ export default class BioEditor extends Component {
                 } else {
                     console.log("no error :)");
                     self.props.updateBio(this.state.draftBio);
-                    location.replace("/");
+                    this.toggleTextarea();
                 }
             })
             .catch(function (err) {
@@ -60,7 +59,7 @@ export default class BioEditor extends Component {
                 {!this.props.bio && !this.state.textareaVisible && (
                     <div>
                         <p>No bio added ....</p>
-                        <button onClick={this.toggleTextarea}>
+                        <button onClick={() => this.toggleTextarea()}>
                             Add your bio
                         </button>
                     </div>
@@ -68,15 +67,11 @@ export default class BioEditor extends Component {
                 {this.props.bio && !this.state.textareaVisible && (
                     <div>
                         <p>{this.props.bio}</p>
-                        <button onClick={this.toggleTextarea}>Update</button>
+                        <button onClick={() => this.toggleTextarea()}>
+                            Update
+                        </button>
                     </div>
                 )}
-                {/* {this.state.textareaVisible && (
-                    <div>
-                        <textarea onChange={(e) => this.handleChange(e)} />
-                        <button onClick={() => this.handleClick()}>Save</button>
-                    </div>
-                )} */}
 
                 {this.state.textareaVisible && (
                     <div>

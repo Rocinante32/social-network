@@ -20,17 +20,18 @@ body {
     float: right;
 }
 
-#profile .pic-div {
+.profile .pic-div {
     float: none;
     /* width: 45%; */
     width: max-content;
 }
-#profile img {
+.profile img {
     width: 250px;
     height: 250px;
+    object-fit: cover;
 }
 
-#profile {
+.profile {
     width: 60%;
     margin: auto;
 }

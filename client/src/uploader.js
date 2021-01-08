@@ -17,7 +17,7 @@ export default class Uploader extends Component {
 
     handleUpload(e) {
         //prevent default behaviour of button ( use e.preventDefault() )
-        e.preventDefault();
+        // e.preventDefault();
         console.log("file: ", this.state.file);
         const self = this;
         //POST data to upload path with axios
@@ -29,6 +29,7 @@ export default class Uploader extends Component {
             .then((res) => {
                 console.log("aws res: ", res.data.url);
                 self.props.setImage(res.data.url);
+                this.props.toggleUplo
             })
             .catch(function (err) {
                 console.log(err);

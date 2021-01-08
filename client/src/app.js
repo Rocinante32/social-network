@@ -3,6 +3,8 @@ import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "./otherprofile";
 
 export default class App extends Component {
     constructor() {
@@ -13,20 +15,13 @@ export default class App extends Component {
     }
 
     toggleUploader() {
+        console.log("uploader toggled");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     setImage(newProfilePic) {
-        /*
-            This method allows Uploader to communicate with App.
-                - This method is passed to Uploader as a prop
-                - Uploader can call this method, and can pass it an argument
-                - Uploader calls setImage, but setImage will run in App
-                - The result is that the state of App will be updated 
-        */
-        console.log("newProfilePic: ", newProfilePic);
         this.setState(
             {
                 profile_pic: newProfilePic,
@@ -36,9 +31,9 @@ export default class App extends Component {
     }
 
     updateBio(newInfo) {
-        console.log("new bio info: ", newInfo);
         this.setState({
             bio: newInfo,
+            uploaderIsVisible: false,
         });
     }
 
@@ -54,9 +49,9 @@ export default class App extends Component {
                     email: response.data.email,
                     profile_pic: response.data.profile_pic,
                     bio: response.data.bio,
+                    id: response.data.id,
                 });
                 console.log("user data retrieved");
-                console.log("state after db query", this.state);
             })
             .catch((err) => {
                 console.log(err);
@@ -65,30 +60,52 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>
-                <p id="logo">This is the app LOGO</p>
-                <ProfilePic
-                    first={this.state.first}
-                    last={this.state.last}
-                    profile_pic={this.state.profile_pic}
-                    toggleUploader={() => this.toggleUploader()}
-                />
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    profile_pic={this.state.profile_pic}
-                    bio={this.state.bio}
-                    updateBio={() => this.toggleUploader()}
-                />
-
-                {this.state.uploaderIsVisible && (
-                    <Uploader
-                        setImage={(newProfilePic) =>
-                            this.setImage(newProfilePic)
-                        }
+            <BrowserRouter>
+                <div>
+                    <p id="logo">This is the app LOGO</p>
+                    <ProfilePic
+                        first={this.state.first}
+                        last={this.state.last}
+                        profile_pic={this.state.profile_pic}
+                        toggleUploader={() => this.toggleUploader()}
                     />
-                )}
-            </div>
+                    {this.state.uploaderIsVisible && (
+                        <Uploader
+                            setImage={(newProfilePic) =>
+                                this.setImage(newProfilePic)
+                            }
+                            toggleUploader={() => this.toggleUploader()}
+                        />
+                    )}
+
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                first={this.state.first}
+                                last={this.state.last}
+                                profile_pic={this.state.profile_pic}
+                                bio={this.state.bio}
+                                updateBio={() => this.toggleUploader()}
+                                toggleModal={() => this.toggleModal()}
+                            />
+                        )}
+                    />
+
+                    <Route
+                        exact
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                </div>
+            </BrowserRouter>
         );
     }
 }

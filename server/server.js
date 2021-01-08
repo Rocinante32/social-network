@@ -192,6 +192,7 @@ app.get("/user-info", (req, res) => {
                 email: rows[0].email,
                 profile_pic: rows[0].profile_pic,
                 bio: rows[0].bio,
+                id: rows[0].id,
             });
         })
         .catch((err) => {
@@ -236,6 +237,28 @@ app.post("/bio", (req, res) => {
         })
         .catch((err) => {
             console.log("err adding to db: ", err);
+        });
+});
+
+//////////////// Other Profile  Route /////////////////
+
+app.get("/other-userinfo/:id", (req, res) => {
+    //if user is logged in
+    // console.log("req made to other user id is: ", req.session.userId);
+    console.log("req params: ", req.params);
+    db.findById(req.params.id)
+        .then(({ rows }) => {
+            console.log("user info from db: ", rows);
+            res.json({
+                first: rows[0].first,
+                last: rows[0].last,
+                profile_pic: rows[0].profile_pic,
+                bio: rows[0].bio,
+                userId: req.session.userId,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
         });
 });
 
