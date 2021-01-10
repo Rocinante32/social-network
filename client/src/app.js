@@ -30,11 +30,13 @@ export default class App extends Component {
         );
     }
 
-    updateBio(newInfo) {
-        this.setState({
-            bio: newInfo,
-            uploaderIsVisible: false,
-        });
+    updateBio(newBio) {
+        this.setState(
+            {
+                bio: newBio,
+            },
+            () => console.log("state after bio update: ", this.state)
+        );
     }
 
     componentDidMount() {
@@ -87,7 +89,7 @@ export default class App extends Component {
                                 last={this.state.last}
                                 profile_pic={this.state.profile_pic}
                                 bio={this.state.bio}
-                                updateBio={() => this.toggleUploader()}
+                                updateBio={(newBio) => this.updateBio(newBio)}
                                 toggleModal={() => this.toggleModal()}
                             />
                         )}

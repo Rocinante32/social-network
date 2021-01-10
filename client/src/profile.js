@@ -9,11 +9,7 @@ export default function Profile({ first, last, profile_pic, bio, updateBio }) {
                 Hello my name is {first} {last}
             </h3>
             <ProfilePic profile_pic={profile_pic} />
-            <BioEditor
-                bio={bio}
-                updateBio={() => updateBio()}
-                toggleUploader={() => this.toggleUploader()}
-            />
+            <BioEditor bio={bio} updateBio={updateBio} />
         </div>
     );
 }

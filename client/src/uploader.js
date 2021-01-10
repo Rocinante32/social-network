@@ -29,7 +29,7 @@ export default class Uploader extends Component {
             .then((res) => {
                 console.log("aws res: ", res.data.url);
                 self.props.setImage(res.data.url);
-                this.props.toggleUplo
+                // this.props.toggleUploader();
             })
             .catch(function (err) {
                 console.log(err);

@@ -232,8 +232,8 @@ app.post("/bio", (req, res) => {
     console.log("bio var is: ", bio);
     db.updateBio(req.session.userId, bio)
         .then((response) => {
-            console.log("bio added to db: ", response);
-            res.send(response);
+            console.log("bio added to db: ", bio);
+            res.json({ bio: req.body.draftBio });
         })
         .catch((err) => {
             console.log("err adding to db: ", err);
