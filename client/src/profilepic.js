@@ -8,6 +8,7 @@ export default function ProfilePic({
 }) {
     return (
         <div className="pic-div">
+            <h1>{first}</h1>
             {!profile_pic && (
                 <img
                     src="../default-profile.png"
@@ -25,7 +26,6 @@ export default function ProfilePic({
                     onClick={() => toggleUploader()}
                 />
             )}
-            <h1>{first}</h1>
         </div>
     );
 }

@@ -64,48 +64,53 @@ export default class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <p id="logo">This is the app LOGO</p>
-                    <ProfilePic
-                        first={this.state.first}
-                        last={this.state.last}
-                        profile_pic={this.state.profile_pic}
-                        toggleUploader={() => this.toggleUploader()}
-                    />
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            setImage={(newProfilePic) =>
-                                this.setImage(newProfilePic)
-                            }
+                    <div id="navbar">
+                        <p id="logo">This is the app LOGO</p>
+                        <ProfilePic
+                            first={this.state.first}
+                            last={this.state.last}
+                            profile_pic={this.state.profile_pic}
                             toggleUploader={() => this.toggleUploader()}
                         />
-                    )}
-
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Profile
-                                first={this.state.first}
-                                last={this.state.last}
-                                profile_pic={this.state.profile_pic}
-                                bio={this.state.bio}
-                                updateBio={(newBio) => this.updateBio(newBio)}
-                                toggleModal={() => this.toggleModal()}
+                        {this.state.uploaderIsVisible && (
+                            <Uploader
+                                setImage={(newProfilePic) =>
+                                    this.setImage(newProfilePic)
+                                }
+                                toggleUploader={() => this.toggleUploader()}
                             />
                         )}
-                    />
+                    </div>
+                    <div id="app-main">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    profile_pic={this.state.profile_pic}
+                                    bio={this.state.bio}
+                                    updateBio={(newBio) =>
+                                        this.updateBio(newBio)
+                                    }
+                                    toggleModal={() => this.toggleModal()}
+                                />
+                            )}
+                        />
 
-                    <Route
-                        exact
-                        path="/user/:id"
-                        render={(props) => (
-                            <OtherProfile
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
+                        <Route
+                            exact
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
+                    </div>
                 </div>
             </BrowserRouter>
         );
