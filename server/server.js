@@ -240,6 +240,35 @@ app.post("/bio", (req, res) => {
         });
 });
 
+//////////////// Other Users Info  Route /////////////////
+
+app.get("/users-info", (req, res) => {
+    // console.log("req made to other user id is: ", req.session.userId);
+    console.log("mount req to /users");
+    db.findNewUsers()
+        .then(({ rows }) => {
+            console.log("user info from db: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+//////////////// Other Users Search  Route /////////////////
+app.get("/users-info/:query", (req, res) => {
+    console.log("req params: ", req.params.query);
+    console.log(" req to /users-info/query");
+    db.findUsers(req.params.query)
+        .then(({ rows }) => {
+            console.log("user info from db: ", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
 //////////////// Other Profile  Route /////////////////
 
 app.get("/other-userinfo/:id", (req, res) => {

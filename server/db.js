@@ -63,3 +63,14 @@ module.exports.updateBio = (id, bio) => {
     const params = [id, bio];
     return db.query(q, params);
 };
+
+module.exports.findNewUsers = () => {
+    const q = `SELECT * FROM users ORDER BY id DESC LIMIT 3`;
+    return db.query(q);
+};
+
+module.exports.findUsers = (search) => {
+    const q = `SELECT first, last, bio, profile_pic, id FROM users WHERE first ILIKE $1 LIMIT 3;`;
+    const params = [search + "%"];
+    return db.query(q, params);
+};

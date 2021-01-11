@@ -5,6 +5,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherprofile";
+import FindPeople from "./findpeople";
 
 export default class App extends Component {
     constructor() {
@@ -97,6 +98,11 @@ export default class App extends Component {
                                     toggleModal={() => this.toggleModal()}
                                 />
                             )}
+                        />
+                        <Route
+                            exact
+                            path="/users"
+                            render={() => <FindPeople />}
                         />
 
                         <Route
