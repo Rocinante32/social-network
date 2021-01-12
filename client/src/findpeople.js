@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
 
+
 export default function FindPeople() {
     const [query, setQuery] = useState("");
     const [users, setUsers] = useState([]);
@@ -25,6 +26,7 @@ export default function FindPeople() {
     // console.log("********* RENDERING <FindPeople /> *************");
     return (
         <div>
+            <h1>Find People</h1>
             {!query && (
                 <>
                     <h2>Our latest users</h2>
@@ -38,23 +40,19 @@ export default function FindPeople() {
             />
             {!users.length && <p>No users found</p>}
 
-            <ul>
+            <div>
                 {users.map((user) => (
-                    <li key={user.id}>
-                        {user.first} {user.last}
-                        <img src={user.profile_pic} alt={first + last} />
-                    </li>
+                    <div key={user.id}>
+                        <a href={`/user/${user.id}`}>
+                            {user.first} {user.last}
+                            <img
+                                src={user.profile_pic}
+                                alt={`${user.first} ${user.last}`}
+                            />
+                        </a>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
-}
-
-{
-    /* <ul>
-    {countries.map((country, idx) => (
-        <li key={idx}>{country}</li>
-    ))}
-    {!countries.length && query && <li>Nothing Found</li>}
-</ul>; */
 }

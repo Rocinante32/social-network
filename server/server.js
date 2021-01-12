@@ -5,6 +5,7 @@ const compression = require("compression");
 const path = require("path");
 const { hash, compare } = require("./bc");
 const db = require("./db");
+const friendship = require("./friendship");
 const csurf = require("csurf");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -285,6 +286,23 @@ app.get("/other-userinfo/:id", (req, res) => {
                 bio: rows[0].bio,
                 userId: req.session.userId,
             });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+//////////////// Friend Request  Route /////////////////
+
+app.get("/friendship-status/:id", (req, res) => {
+    //if user is logged in
+    // console.log("req made to other user id is: ", req.session.userId);
+    console.log("req params: ", req.params);
+    friendship
+        .checkFriendship(req.session.userId, req.params.id)
+        .then(({ rows }) => {
+            console.log("friend status info from db: ", rows);
+            res.json(rows);
         })
         .catch((err) => {
             console.log(err);
