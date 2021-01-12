@@ -302,7 +302,7 @@ app.get("/friendship-status/:id", (req, res) => {
         .checkFriendship(req.session.userId, req.params.id)
         .then(({ rows }) => {
             console.log("friend status info from db: ", rows);
-            res.json(rows);
+            res.json({ rows: rows, userId: req.session.userId });
         })
         .catch((err) => {
             console.log(err);
