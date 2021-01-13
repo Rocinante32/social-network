@@ -108,6 +108,14 @@ app.post("/login", (req, res) => {
         });
 });
 
+////////////////  Logout Route  /////////////////
+
+app.post("/logout", (req, res) => {
+    console.log("post req to logout, ", req.body);
+    req.session.userId = null;
+    res.sendStatus(200);
+});
+
 ////////////////  Password Reset Route  /////////////////
 
 app.post("/password/reset/start", (req, res) => {
