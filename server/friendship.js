@@ -12,6 +12,31 @@ module.exports.checkFriendship = (userId, otherUserId) => {
     return db.query(q, params);
 };
 
+module.exports.unfriend = (userId, otherUserId) => {
+    const q = `DELETE 
+                FROM friendships
+                WHERE (sender_id = $1 AND recipient_id = $2)
+                OR (sender_id = $2 AND recipient_id = $1);`;
+    const params = [userId, otherUserId];
+    return db.query(q, params);
+};
 
+module.exports.sendRequest = (userId, otherUserId) => {
+    const q = `INSERT INTO friendships (sender_id, recipient_id)
+                VALUES ($1, $2)
+                RETURNING sender_id, recipient_id, accepted;`;
+    const params = [userId, otherUserId];
+    return db.query(q, params);
+};
+
+module.exports.acceptRequest = (userId, otherUserId) => {
+    const q = `UPDATE friendships 
+                SET accepted= true
+                WHERE sender_id = $2
+                AND recipient_id = $1
+                RETURNING sender_id, recipient_id, accepted;`;
+    const params = [userId, otherUserId];
+    return db.query(q, params);
+};
 
 // INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (2, 205, 'true');

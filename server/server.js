@@ -309,6 +309,46 @@ app.get("/friendship-status/:id", (req, res) => {
         });
 });
 
+app.post("/friendship-action", (req, res) => {
+    const { otherUserId, buttonText } = req.body;
+    const userId = req.session.userId;
+
+    if (buttonText === "Unfriend") {
+        console.log("unfriend match");
+        friendship.unfriend(userId, otherUserId).then((rows) => {
+            res.json(rows);
+        });
+    } else if (buttonText === "Cancel Request") {
+        console.log("cancel match");
+        friendship.unfriend(userId, otherUserId).then((rows) => {
+            res.json(rows);
+        });
+    } else if (buttonText === "Send Friend Request") {
+        console.log("send req match");
+        friendship.sendRequest(userId, otherUserId).then((rows) => {
+            console.log("db res: ", rows);
+            res.json({ rows: rows.rows, userId: req.session.userId });
+        });
+    } else {
+        console.log("accept match");
+        friendship.acceptRequest(userId, otherUserId).then((rows) => {
+            console.log("db res: ", rows);
+            res.json(rows);
+        });
+    }
+
+    // const bio = req.body.draftBio;
+    // console.log("bio var is: ", bio);
+    // db.updateBio(req.session.userId, bio)
+    //     .then((response) => {
+    //         console.log("bio added to db: ", bio);
+    //         res.json({ bio: req.body.draftBio });
+    //     })
+    //     .catch((err) => {
+    //         console.log("err adding to db: ", err);
+    //     });
+});
+
 //////////////// Redirect/Welcome Route /////////////////
 
 // cookie session needs to be added for this to work
