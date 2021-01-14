@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 import Logout from "./logout";
+import Friends from "./friends";
 
 export default class App extends Component {
     constructor() {
@@ -46,7 +47,6 @@ export default class App extends Component {
         axios
             .get("/user-info")
             .then((response) => {
-                console.log("response: ", response);
                 this.setState({
                     first: response.data.first,
                     last: response.data.last,
@@ -117,6 +117,11 @@ export default class App extends Component {
                                     history={props.history}
                                 />
                             )}
+                        />
+                        <Route
+                            exact
+                            path="/friends"
+                            render={() => <Friends />}
                         />
                     </div>
                 </div>

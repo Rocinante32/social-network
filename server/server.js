@@ -191,10 +191,9 @@ app.post("/password/reset/verify", (req, res) => {
 
 app.get("/user-info", (req, res) => {
     //if user is logged in
-    console.log("req made to user info: ", req.session.userId);
+    // console.log("req made to user info: ", req.session.userId);
     db.findById(req.session.userId)
         .then(({ rows }) => {
-            console.log("user info from db: ", rows);
             res.json({
                 first: rows[0].first,
                 last: rows[0].last,
@@ -256,7 +255,6 @@ app.get("/users-info", (req, res) => {
     console.log("mount req to /users");
     db.findNewUsers()
         .then(({ rows }) => {
-            console.log("user info from db: ", rows);
             res.json(rows);
         })
         .catch((err) => {
@@ -266,11 +264,11 @@ app.get("/users-info", (req, res) => {
 
 //////////////// Other Users Search  Route /////////////////
 app.get("/users-info/:query", (req, res) => {
-    console.log("req params: ", req.params.query);
+    // console.log("req params: ", req.params.query);
     console.log(" req to /users-info/query");
     db.findUsers(req.params.query)
         .then(({ rows }) => {
-            console.log("user info from db: ", rows);
+            // console.log("user info from db: ", rows);
             res.json(rows);
         })
         .catch((err) => {
@@ -283,7 +281,7 @@ app.get("/users-info/:query", (req, res) => {
 app.get("/other-userinfo/:id", (req, res) => {
     //if user is logged in
     // console.log("req made to other user id is: ", req.session.userId);
-    console.log("req params: ", req.params);
+    // console.log("req params: ", req.params);
     db.findById(req.params.id)
         .then(({ rows }) => {
             console.log("user info from db: ", rows);
@@ -305,7 +303,7 @@ app.get("/other-userinfo/:id", (req, res) => {
 app.get("/friendship-status/:id", (req, res) => {
     //if user is logged in
     // console.log("req made to other user id is: ", req.session.userId);
-    console.log("req params: ", req.params);
+    // console.log("req params: ", req.params);
     friendship
         .checkFriendship(req.session.userId, req.params.id)
         .then(({ rows }) => {
@@ -334,7 +332,7 @@ app.post("/friendship-action", (req, res) => {
     } else if (buttonText === "Send Friend Request") {
         console.log("send req match");
         friendship.sendRequest(userId, otherUserId).then((rows) => {
-            console.log("db res: ", rows);
+            // console.log("db res: ", rows);
             res.json({ rows: rows.rows, userId: req.session.userId });
         });
     } else {
@@ -344,17 +342,44 @@ app.post("/friendship-action", (req, res) => {
             res.json(rows);
         });
     }
+});
 
-    // const bio = req.body.draftBio;
-    // console.log("bio var is: ", bio);
-    // db.updateBio(req.session.userId, bio)
-    //     .then((response) => {
-    //         console.log("bio added to db: ", bio);
-    //         res.json({ bio: req.body.draftBio });
-    //     })
-    //     .catch((err) => {
-    //         console.log("err adding to db: ", err);
-    //     });
+//////////////// Friends  and pending Requests  Route /////////////////
+
+app.get("/getfriends", (req, res) => {
+    //if user is logged in
+    // console.log("req made to other user id is: ", req.session.userId);
+    // console.log("req params: ", req.params);
+    friendship
+        .getFriendsAndReq(req.session.userId)
+        .then(({ rows }) => {
+            // console.log("get friends info from db: ", rows);
+            res.json({ users: rows });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+app.post("/accept-friend", (req, res) => {
+    const { otherUserId } = req.body;
+    console.log("req.body: ", req.body);
+    const userId = req.session.userId;
+    console.log("accept match");
+    friendship.acceptRequest(userId, otherUserId).then(() => {
+        console.log("db res: ", otherUserId);
+        res.json({ otherUserId: otherUserId });
+    });
+});
+
+app.post("/unfriend", (req, res) => {
+    const { otherUserId } = req.body;
+    console.log("req.body: ", req.body);
+    const userId = req.session.userId;
+    console.log("unfriend match");
+    friendship.unfriend(userId, otherUserId).then(() => {
+        res.json({ otherUserId: otherUserId });
+    });
 });
 
 //////////////// Redirect/Welcome Route /////////////////
