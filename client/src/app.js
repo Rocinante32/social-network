@@ -3,11 +3,12 @@ import axios from "./axios";
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 import Logout from "./logout";
 import Friends from "./friends";
+import { Button } from "@material-ui/core";
 
 export default class App extends Component {
     constructor() {
@@ -67,22 +68,36 @@ export default class App extends Component {
             <BrowserRouter>
                 <div>
                     <div id="navbar">
-                        <p id="logo">This is the app LOGO</p>
-                        <Logout />
-                        <ProfilePic
-                            first={this.state.first}
-                            last={this.state.last}
-                            profile_pic={this.state.profile_pic}
-                            toggleUploader={() => this.toggleUploader()}
-                        />
-                        {this.state.uploaderIsVisible && (
-                            <Uploader
-                                setImage={(newProfilePic) =>
-                                    this.setImage(newProfilePic)
-                                }
+                        <div id="logo-div">
+                            <h1 id="logo">This is the app LOGO</h1>
+                        </div>
+                        <div id="icon-div">
+                            <Link to="/">
+                                <Button color="inherit" className="button">
+                                    <i className="fas fa-home"></i>
+                                </Button>
+                            </Link>
+                            <Link to="/friends">
+                                <Button color="inherit" className="button">
+                                    <i className="fas fa-user-friends"></i>
+                                </Button>
+                            </Link>
+                            <Logout />
+                            <ProfilePic
+                                first={this.state.first}
+                                last={this.state.last}
+                                profile_pic={this.state.profile_pic}
                                 toggleUploader={() => this.toggleUploader()}
                             />
-                        )}
+                            {this.state.uploaderIsVisible && (
+                                <Uploader
+                                    setImage={(newProfilePic) =>
+                                        this.setImage(newProfilePic)
+                                    }
+                                    toggleUploader={() => this.toggleUploader()}
+                                />
+                            )}
+                        </div>
                     </div>
                     <div id="app-main">
                         <Route

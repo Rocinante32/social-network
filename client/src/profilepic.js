@@ -8,7 +8,7 @@ export default function ProfilePic({
 }) {
     return (
         <div className="pic-div">
-            <h1>{first}</h1>
+            <h3>{first}</h3>
             {!profile_pic && (
                 <img
                     src="../default-profile.png"

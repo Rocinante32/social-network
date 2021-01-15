@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
-
+import TextField from "@material-ui/core/TextField";
 
 export default function FindPeople() {
     const [query, setQuery] = useState("");
@@ -34,6 +34,7 @@ export default function FindPeople() {
             )}
 
             <p>Use the search to find users by name</p>
+            <TextField id="standard-basic" label="Search here ..." />
             <input
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Type user here..."

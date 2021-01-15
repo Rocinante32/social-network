@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import { Button } from "@material-ui/core";
 
 export default function Logout() {
     axios.post;
@@ -14,7 +15,9 @@ export default function Logout() {
 
     return (
         <>
-            <button onClick={() => handleClick()}>Logout</button>
+            <Button color="inherit" className="button" onClick={() => handleClick()}>
+                Logout
+            </Button>
         </>
     );
 }

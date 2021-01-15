@@ -1,6 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import axios from "./axios";
+import { Button, ButtonGroup } from "@material-ui/core";
 
 export default class BioEditor extends Component {
     constructor(props) {
@@ -55,21 +56,29 @@ export default class BioEditor extends Component {
         // console.log("state from bio Ed: ", this.state);
         // console.log("props from bio Ed: ", this.props);
         return (
-            <>
+            <div id="bioEditor">
                 {!this.props.bio && !this.state.textareaVisible && (
                     <div>
                         <p>No bio added ....</p>
-                        <button onClick={() => this.toggleTextarea()}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.toggleTextarea()}
+                        >
                             Add your bio
-                        </button>
+                        </Button>
                     </div>
                 )}
                 {this.props.bio && !this.state.textareaVisible && (
                     <div>
                         <p>{this.props.bio}</p>
-                        <button onClick={() => this.toggleTextarea()}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.toggleTextarea()}
+                        >
                             Update
-                        </button>
+                        </Button>
                     </div>
                 )}
 
@@ -79,13 +88,23 @@ export default class BioEditor extends Component {
                             value={this.state.draftBio}
                             onChange={(e) => this.handleChange(e)}
                         />
-                        <button onClick={() => this.toggleTextarea()}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => this.toggleTextarea()}
+                        >
                             Cancel
-                        </button>
-                        <button onClick={() => this.handleClick()}>Save</button>
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.handleClick()}
+                        >
+                            Save
+                        </Button>
                     </div>
                 )}
-            </>
+            </div>
         );
     }
 }

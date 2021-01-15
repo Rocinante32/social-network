@@ -1,3 +1,7 @@
+* {
+    font-family: "Roboto", sans-serif;
+}
+
 body {
     background-color: #dde6ff;
     box-sizing: border-box;
@@ -7,30 +11,50 @@ body {
 #navbar {
     height: 100px;
     background-color: cornflowerblue;
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    color: whitesmoke;
 }
 
 #app-main {
     background-color: #dde6ff;
 }
 
+#logo-div {
+    display: flex;
+    align-content: stretch;
+}
+
+#icon-div {
+    display: flex;
+}
+
+#icon-div .button {
+    height: 100%;
+}
+
 #logo {
     display: inline;
     width: max-content;
+    align-self: center;
 }
 #navbar .pic-div {
     display: flex;
     text-align: center;
-    float: right;
     align-items: center;
     height: 100%;
     width: 200px;
     justify-content: space-evenly;
 }
+.button {
+    color: whitesmoke;
+}
 
 #navbar .profile-pic {
     width: 75px;
     height: 75px;
-    border-radius: 10px;
+    border-radius: 50%;
     object-fit: cover;
     float: right;
 }
@@ -54,3 +78,7 @@ body {
     width: 60%;
     margin: auto;
 }
+
+/* #bioEditor button {
+    background-color: lightcoral;
+} */
