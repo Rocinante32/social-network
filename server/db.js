@@ -74,3 +74,13 @@ module.exports.findUsers = (search) => {
     const params = [search + "%"];
     return db.query(q, params);
 };
+
+module.exports.findLastMessages = () => {
+    const q = `SELECT chat_messages.id, chat_messages.user_id, chat_messages.message, chat_messages.created_at, 
+                users.first, users.last, users.profile_pic
+                FROM chat_messages
+                JOIN users
+                ON chat_messages.user_id = users.id
+                ORDER BY created_at DESC LIMIT 10`;
+    return db.query(q);
+};

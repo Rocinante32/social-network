@@ -2,6 +2,7 @@
 import { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import { Button, TextField } from "@material-ui/core";
 
 export default class Registration extends Component {
     constructor() {
@@ -41,36 +42,57 @@ export default class Registration extends Component {
     render() {
         return (
             <div>
+                <div id="navbar">
+                    <div id="logo-div">
+                        <h1 id="logo">fakebook</h1>
+                    </div>
+                    <div id="icon-div">
+                        <Button
+                            color="inherit"
+                            className="button"
+                            component={Link}
+                            to="/login"
+                            id="login"
+                        >
+                            Login
+                        </Button>
+                    </div>
+                </div>
                 {this.state.error && <p>Something went wrong</p>}
                 <h1>Registration</h1>
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="first"
-                    placeholder="first name"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="last"
-                    placeholder="last name"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="email"
-                    placeholder="email"
-                    type="text"
-                />
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="password"
-                    placeholder="password"
-                    type="password"
-                />
-                <button onClick={() => this.handleClick()}>submit</button>
-                <div>
-                    <Link to="/login">Click here to Log in!</Link>
-                </div>
+                <form>
+                    <TextField
+                        onChange={(e) => this.handleChange(e)}
+                        name="first"
+                        placeholder="first name"
+                        type="text"
+                    />
+                    <TextField
+                        onChange={(e) => this.handleChange(e)}
+                        name="last"
+                        placeholder="last name"
+                        type="text"
+                    />
+                    <TextField
+                        onChange={(e) => this.handleChange(e)}
+                        name="email"
+                        placeholder="email"
+                        type="text"
+                    />
+                    <TextField
+                        onChange={(e) => this.handleChange(e)}
+                        name="password"
+                        placeholder="password"
+                        type="password"
+                    />
+                </form>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.handleClick()}
+                >
+                    submit
+                </Button>
             </div>
         );
     }

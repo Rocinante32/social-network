@@ -8,7 +8,8 @@ import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 import Logout from "./logout";
 import Friends from "./friends";
-import { Button } from "@material-ui/core";
+import Chat from "./chat";
+import { Button, Container } from "@material-ui/core";
 
 export default class App extends Component {
     constructor() {
@@ -69,19 +70,26 @@ export default class App extends Component {
                 <div>
                     <div id="navbar">
                         <div id="logo-div">
-                            <h1 id="logo">This is the app LOGO</h1>
+                            <h1 id="logo">fakebook</h1>
                         </div>
                         <div id="icon-div">
-                            <Link to="/">
-                                <Button color="inherit" className="button">
-                                    <i className="fas fa-home"></i>
-                                </Button>
-                            </Link>
-                            <Link to="/friends">
-                                <Button color="inherit" className="button">
-                                    <i className="fas fa-user-friends"></i>
-                                </Button>
-                            </Link>
+                            <Button
+                                color="inherit"
+                                className="button"
+                                component={Link}
+                                to="/"
+                            >
+                                <i className="fas fa-home"></i>
+                            </Button>
+                            <Button
+                                color="inherit"
+                                className="button"
+                                component={Link}
+                                to="/friends"
+                            >
+                                <i className="fas fa-user-friends"></i>
+                            </Button>
+
                             <Logout />
                             <ProfilePic
                                 first={this.state.first}
@@ -99,45 +107,49 @@ export default class App extends Component {
                             )}
                         </div>
                     </div>
-                    <div id="app-main">
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Profile
-                                    first={this.state.first}
-                                    last={this.state.last}
-                                    profile_pic={this.state.profile_pic}
-                                    bio={this.state.bio}
-                                    updateBio={(newBio) =>
-                                        this.updateBio(newBio)
-                                    }
-                                    toggleModal={() => this.toggleModal()}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path="/users"
-                            render={() => <FindPeople />}
-                        />
 
-                        <Route
-                            exact
-                            path="/user/:id"
-                            render={(props) => (
-                                <OtherProfile
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
-                            )}
-                        />
-                        <Route
-                            exact
-                            path="/friends"
-                            render={() => <Friends />}
-                        />
+                    <div id="app-main">
+                        <Container>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        first={this.state.first}
+                                        last={this.state.last}
+                                        profile_pic={this.state.profile_pic}
+                                        bio={this.state.bio}
+                                        updateBio={(newBio) =>
+                                            this.updateBio(newBio)
+                                        }
+                                        toggleModal={() => this.toggleModal()}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path="/users"
+                                render={() => <FindPeople />}
+                            />
+
+                            <Route
+                                exact
+                                path="/user/:id"
+                                render={(props) => (
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path="/friends"
+                                render={() => <Friends />}
+                            />
+                            <Route exact path="/chat" render={() => <Chat />} />
+                        </Container>
                     </div>
                 </div>
             </BrowserRouter>

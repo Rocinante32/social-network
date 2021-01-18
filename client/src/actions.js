@@ -29,3 +29,12 @@ export async function unfriend(id) {
         id: data.otherUserId,
     };
 }
+
+export async function addTenLastMessagesToRedux(data) {
+    // const { data } = await axios.get("/getfriends");
+    console.log("from actions.js: ", data);
+    return {
+        type: "GET_MESSAGES",
+        messages: data,
+    };
+}

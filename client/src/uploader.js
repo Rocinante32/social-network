@@ -1,6 +1,6 @@
 import { Component } from "react";
 import axios from "./axios";
-
+import { Button } from "@material-ui/core";
 
 export default class Uploader extends Component {
     constructor(props) {
@@ -40,15 +40,25 @@ export default class Uploader extends Component {
     render() {
         console.log("this.props in Uploader: ", this.props);
         return (
-            <div>
-                <p>Select a profile picture</p>
-                <input
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <button onClick={(e) => this.handleUpload(e)}>Submit</button>
+            <div id="modalLayer">
+                <div id="modal">
+                    <i
+                        className="far fa-window-close"
+                        onClick={() => this.toggleUploader()}
+                    ></i>
+                    <p>Select a profile picture</p>
+                    <Button>
+                        <input
+                            name="image"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => this.handleChange(e)}
+                        />
+                    </Button>
+                    <Button onClick={(e) => this.handleUpload(e)}>
+                        Submit
+                    </Button>
+                </div>
             </div>
         );
     }

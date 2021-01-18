@@ -1,6 +1,7 @@
 import { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 export default class Reset extends Component {
     constructor() {
@@ -75,9 +76,30 @@ export default class Reset extends Component {
     }
 
     render() {
+        const navbar = (
+            <>
+                <div id="navbar">
+                    <div id="logo-div">
+                        <h1 id="logo">fakebook</h1>
+                    </div>
+                    <div id="icon-div">
+                        <Button
+                            color="inherit"
+                            className="button"
+                            component={Link}
+                            to="/"
+                            id="login"
+                        >
+                            Register
+                        </Button>
+                    </div>
+                </div>
+            </>
+        );
         if (this.state.view === 1) {
             return (
                 <div>
+                    {navbar}
                     {this.state.error && <p>Something went wrong</p>}
                     <h1>Please enter your email address</h1>
                     <input
@@ -92,6 +114,11 @@ export default class Reset extends Component {
         } else if (this.state.view === 2) {
             return (
                 <div>
+                    <div id="navbar">
+                        <div id="logo-div">
+                            <h1 id="logo">fakebook</h1>
+                        </div>
+                    </div>
                     {this.state.error && (
                         <p>
                             Something went wrong, please try entering your reset
@@ -118,6 +145,11 @@ export default class Reset extends Component {
         } else if (this.state.view === 3) {
             return (
                 <div>
+                    <div id="navbar">
+                        <div id="logo-div">
+                            <h1 id="logo">fakebook</h1>
+                        </div>
+                    </div>
                     <h3>Your password has been updated!</h3>
                     <div>
                         <p>

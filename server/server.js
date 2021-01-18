@@ -39,12 +39,22 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-app.use(
-    cookieSession({
-        secret: `Even a bad pizza is a good pizza`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+//////// Cop pasted from socket.io notes ////////////
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `Even a bad pizza is a good pizza`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(
     express.urlencoded({
@@ -395,6 +405,8 @@ app.get("/welcome", (req, res) => {
     }
 });
 
+//////////// this needs to stay at the bottom //////////
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -405,6 +417,42 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+//////// its important to change this from app.listen to server.listen
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+//////////////// Chat/Socket.io Routes /////////////////
+
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    db.findLastMessages().then(({ rows }) => {
+        console.log("db query for msg: ", rows);
+        socket.emit("10 most recent messages", rows);
+    });
+
+    const userId = socket.request.session.userId;
+
+    socket.on("my new chat message", (message) => {
+        //this will run whenever user posts a new chat
+        console.log("new message sent: ", message);
+        // io.sockets.emit("new message and user", {
+        //     message,
+        //     id,
+        //     profile_pic,
+        //     name,
+        //     timestamp,
+        // });
+    });
+});
+
+io.on("connection", (socket) => {
+    console.log(`socket with id ${socket.id} just connected!`);
+    console.log(
+        "socket.request.session.userId: ",
+        socket.request.session.userId
+    );
 });

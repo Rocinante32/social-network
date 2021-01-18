@@ -9,7 +9,7 @@ body {
 }
 
 #navbar {
-    height: 100px;
+    height: 75px;
     background-color: cornflowerblue;
     display: inline-flex;
     width: 100%;
@@ -30,14 +30,22 @@ body {
     display: flex;
 }
 
+#icon-div i {
+    font-size: 25px;
+}
+
 #icon-div .button {
     height: 100%;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 #logo {
     display: inline;
     width: max-content;
     align-self: center;
+    padding-left: 25px;
+    font-family: "Montserrat", sans-serif;
 }
 #navbar .pic-div {
     display: flex;
@@ -49,14 +57,19 @@ body {
 }
 .button {
     color: whitesmoke;
+    text-decoration: none;
+}
+
+#login {
+    padding: 25px;
 }
 
 #navbar .profile-pic {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
     object-fit: cover;
     float: right;
+    width: 55px;
+    height: 55px;
+    border-radius: 30%;
 }
 
 #navbar .profile-pic:hover {
@@ -67,18 +80,56 @@ body {
     float: none;
     /* width: 45%; */
     width: max-content;
+    margin: auto;
 }
 .profile img {
     width: 250px;
     height: 250px;
     object-fit: cover;
 }
+#modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 100%;
+    background-color: whitesmoke;
+}
+
+#modalLayer {
+    z-index: 6;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 500ms ease-in-out;
+}
 
 .profile {
     width: 60%;
     margin: auto;
+    text-align: center;
 }
 
-/* #bioEditor button {
-    background-color: lightcoral;
-} */
+.chat-container {
+    width: 60%;
+    margin: auto;
+    background-color: whitesmoke;
+    padding: 5px;
+}
+.message {
+    height: 75px;
+    text-align: center;
+    border-bottom: 1px dashed lightgray;
+}
+
+.message img {
+    object-fit: cover;
+    float: left;
+    width: 65px;
+    height: 65px;
+    border-radius: 30%;
+}

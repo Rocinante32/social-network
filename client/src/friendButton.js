@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "./axios";
+import { Button } from "@material-ui/core";
 
 export default function FriendButton({ otherUserId }) {
     const [buttonText, setButtonText] = useState("");
@@ -34,7 +35,13 @@ export default function FriendButton({ otherUserId }) {
 
     return (
         <>
-            <button onClick={() => handleClick()}>{buttonText}</button>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleClick()}
+            >
+                {buttonText}
+            </Button>
         </>
     );
 }

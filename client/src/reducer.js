@@ -31,5 +31,15 @@ export function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "GET_MESSAGES") {
+        // console.log("state in reducer: ", state);
+        console.log("reducer msg's: ", action.messages);
+        state = {
+            ...state,
+            messages: action.messages,
+        };
+        console.log("state in reducer: ", state);
+    }
+
     return state;
 }
