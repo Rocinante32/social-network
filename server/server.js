@@ -438,7 +438,11 @@ io.on("connection", function (socket) {
 
     socket.on("my new chat message", (message) => {
         //this will run whenever user posts a new chat
-        console.log("new message sent: ", message);
+        console.log("new message sent: ", message, "from: ", userId);
+        db.addToMessages(userId, message).then((dbEntry) => {
+            console.log("added to db: ", dbEntry);
+            
+        });
         // io.sockets.emit("new message and user", {
         //     message,
         //     id,
@@ -450,7 +454,9 @@ io.on("connection", function (socket) {
 });
 
 io.on("connection", (socket) => {
-    console.log(`socket with id ${socket.id} just connected!`);
+    console.log(
+        `socket with id ${socket.id} and user id: ${socket.request.session.userId} just connected!`
+    );
     console.log(
         "socket.request.session.userId: ",
         socket.request.session.userId

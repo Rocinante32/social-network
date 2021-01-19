@@ -84,3 +84,10 @@ module.exports.findLastMessages = () => {
                 ORDER BY created_at DESC LIMIT 10`;
     return db.query(q);
 };
+
+module.exports.addToMessages = (user_id, message) => {
+    const q = `INSERT INTO chat_messages ( user_id, message)
+    VALUES ($1, $2) RETURNING created_at`;
+    const params = [user_id, message];
+    return db.query(q, params);
+};
