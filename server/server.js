@@ -311,13 +311,9 @@ app.get("/other-userinfo/:id", (req, res) => {
 //////////////// Friend Request  Route /////////////////
 
 app.get("/friendship-status/:id", (req, res) => {
-    //if user is logged in
-    // console.log("req made to other user id is: ", req.session.userId);
-    // console.log("req params: ", req.params);
     friendship
         .checkFriendship(req.session.userId, req.params.id)
         .then(({ rows }) => {
-            console.log("friend status info from db: ", rows);
             res.json({ rows: rows, userId: req.session.userId });
         })
         .catch((err) => {
@@ -342,13 +338,11 @@ app.post("/friendship-action", (req, res) => {
     } else if (buttonText === "Send Friend Request") {
         console.log("send req match");
         friendship.sendRequest(userId, otherUserId).then((rows) => {
-            // console.log("db res: ", rows);
             res.json({ rows: rows.rows, userId: req.session.userId });
         });
     } else {
         console.log("accept match");
         friendship.acceptRequest(userId, otherUserId).then((rows) => {
-            console.log("db res: ", rows);
             res.json(rows);
         });
     }
@@ -357,9 +351,6 @@ app.post("/friendship-action", (req, res) => {
 //////////////// Friends  and pending Requests  Route /////////////////
 
 app.get("/getfriends", (req, res) => {
-    //if user is logged in
-    // console.log("req made to other user id is: ", req.session.userId);
-    // console.log("req params: ", req.params);
     friendship
         .getFriendsAndReq(req.session.userId)
         .then(({ rows }) => {
@@ -373,18 +364,14 @@ app.get("/getfriends", (req, res) => {
 
 app.post("/accept-friend", (req, res) => {
     const { otherUserId } = req.body;
-    console.log("req.body: ", req.body);
     const userId = req.session.userId;
-    console.log("accept match");
     friendship.acceptRequest(userId, otherUserId).then(() => {
-        console.log("db res: ", otherUserId);
         res.json({ otherUserId: otherUserId });
     });
 });
 
 app.post("/unfriend", (req, res) => {
     const { otherUserId } = req.body;
-    console.log("req.body: ", req.body);
     const userId = req.session.userId;
     console.log("unfriend match");
     friendship.unfriend(userId, otherUserId).then(() => {
@@ -430,26 +417,41 @@ io.on("connection", function (socket) {
     }
 
     db.findLastMessages().then(({ rows }) => {
-        console.log("db query for msg: ", rows);
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].created_at = rows[i].created_at.toLocaleString();
+        }
+        rows = rows.reverse();
         socket.emit("10 most recent messages", rows);
     });
 
-    const userId = socket.request.session.userId;
+    const user_id = socket.request.session.userId;
 
     socket.on("my new chat message", (message) => {
         //this will run whenever user posts a new chat
-        console.log("new message sent: ", message, "from: ", userId);
-        db.addToMessages(userId, message).then((dbEntry) => {
-            console.log("added to db: ", dbEntry);
-            
-        });
-        // io.sockets.emit("new message and user", {
-        //     message,
-        //     id,
-        //     profile_pic,
-        //     name,
-        //     timestamp,
-        // });
+        let created_at = "";
+        console.log("new message sent: ", message, "from: ", user_id);
+        db.addToMessages(user_id, message)
+            .then(({ rows }) => {
+                console.log("added to db ");
+                created_at = rows[0].created_at;
+                let id = rows[0].id;
+                db.findById(user_id).then(({ rows }) => {
+                    const { first, last, profile_pic } = rows[0];
+                    created_at = created_at.toLocaleString();
+                    io.sockets.emit("new message and user", {
+                        message,
+                        user_id,
+                        id,
+                        profile_pic,
+                        first,
+                        last,
+                        created_at,
+                    });
+                });
+            })
+            .catch((err) => {
+                console.log("error in posting new message: ", err);
+            });
     });
 });
 

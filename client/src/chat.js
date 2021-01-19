@@ -8,9 +8,10 @@ export default function Chat() {
         if (e.key === "Enter") {
             console.log("enter has been pressed");
             socket.emit("my new chat message", e.target.value);
+            e.target.value = null;
         }
     };
-    console.log("chatmsg: ", chatMessages);
+    // console.log("chatmsg: ", chatMessages);
 
     return (
         <>
@@ -21,6 +22,7 @@ export default function Chat() {
                         <div key={msg.id} className="message">
                             <img src={msg.profile_pic} />
                             <h3>{msg.first + " " + msg.last}</h3>
+                            <p>{msg.created_at}</p>
                             <p>{msg.message}</p>
                         </div>
                     ))}

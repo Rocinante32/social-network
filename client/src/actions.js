@@ -32,9 +32,18 @@ export async function unfriend(id) {
 
 export async function addTenLastMessagesToRedux(data) {
     // const { data } = await axios.get("/getfriends");
-    console.log("from actions.js: ", data);
+    // console.log("from actions.js: ", data);
     return {
         type: "GET_MESSAGES",
         messages: data,
+    };
+}
+
+export async function postNewMessage(data) {
+    // const { data } = await axios.get("/getfriends");
+    console.log("from actions.js: ", data);
+    return {
+        type: "POST_MESSAGES",
+        data: data,
     };
 }

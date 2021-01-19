@@ -87,7 +87,13 @@ module.exports.findLastMessages = () => {
 
 module.exports.addToMessages = (user_id, message) => {
     const q = `INSERT INTO chat_messages ( user_id, message)
-    VALUES ($1, $2) RETURNING created_at`;
+    VALUES ($1, $2) RETURNING created_at, id`;
     const params = [user_id, message];
+    return db.query(q, params);
+};
+
+module.exports.findById = (user_id) => {
+    const q = `SELECT * FROM users WHERE id = ($1)`;
+    const params = [user_id];
     return db.query(q, params);
 };

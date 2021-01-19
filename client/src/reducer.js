@@ -33,10 +33,20 @@ export function reducer(state = {}, action) {
 
     if (action.type == "GET_MESSAGES") {
         // console.log("state in reducer: ", state);
-        console.log("reducer msg's: ", action.messages);
+        // console.log("reducer msg's: ", action.messages);
         state = {
             ...state,
             messages: action.messages,
+        };
+        console.log("state in reducer: ", state);
+    }
+
+    if (action.type == "POST_MESSAGES") {
+        // console.log("state in reducer: ", state);
+        console.log("reducers new msg: ", action.data);
+        state = {
+            ...state,
+            messages: [...state.messages, action.data],
         };
         console.log("state in reducer: ", state);
     }

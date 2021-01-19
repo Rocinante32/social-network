@@ -13,7 +13,7 @@ export const init = (store) => {
     });
 
     socket.on("10 most recent messages", (mostRecentMessages) => {
-        console.log("return from db to client: ", mostRecentMessages);
+        // console.log("return from db to client: ", mostRecentMessages);
         // this will run when a new user connects (logs in)
         store.dispatch(addTenLastMessagesToRedux(mostRecentMessages));
     });
