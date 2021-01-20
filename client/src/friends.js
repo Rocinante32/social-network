@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import axios from "./axios";
 import { getList, acceptFriend, unfriend } from "./actions";
+import { Button } from "@material-ui/core";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -33,10 +34,18 @@ export default function Friends() {
                 {friends.map((user) => (
                     <div className="user" key={user.id}>
                         <img src={user.profile_pic} />
-                        <h3>{user.first + " " + user.last}</h3>
-                        <button onClick={() => dispatch(unfriend(user.id))}>
-                            Unfriend
-                        </button>
+                        <div className="user-req-details">
+                            <h3>{user.first + " " + user.last}</h3>
+                            <Button
+                                className="smallerButton"
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                onClick={() => dispatch(unfriend(user.id))}
+                            >
+                                Unfriend
+                            </Button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -46,10 +55,18 @@ export default function Friends() {
                 {wannabes.map((user) => (
                     <div className="user" key={user.id}>
                         <img src={user.profile_pic} />
-                        <h3>{user.first + " " + user.last}</h3>
-                        <button onClick={() => dispatch(acceptFriend(user.id))}>
-                            Accept
-                        </button>
+                        <div className="user-req-details">
+                            <h3>{user.first + " " + user.last}</h3>
+                            <Button
+                                className="smallerButton"
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                onClick={() => dispatch(acceptFriend(user.id))}
+                            >
+                                Accept
+                            </Button>
+                        </div>
                     </div>
                 ))}
             </div>

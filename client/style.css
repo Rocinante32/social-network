@@ -116,9 +116,15 @@ body {
 
 .chat-container {
     width: 60%;
+    height: 70vh;
     margin: auto;
     background-color: whitesmoke;
     padding: 5px;
+    overflow-y: auto;
+}
+
+.chat-container textarea {
+    width: 99%;
 }
 .message {
     height: 75px;
@@ -133,3 +139,45 @@ body {
     height: 65px;
     border-radius: 30%;
 }
+
+.user {
+    width: 25vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.user img {
+    object-fit: cover;
+    width: 20vw;
+    height: 20vh;
+    margin: auto;
+}
+
+.user h3 {
+    margin: 0;
+}
+
+.friends {
+    display: flex;
+    height: 35vh;
+}
+
+.wannabes {
+    display: flex;
+    height: 35vh;
+}
+
+.smallerButton {
+    height: 20px;
+    margin-right: 5px;
+}
+
+.editProf {
+    height: 25vh;
+}
+
+/* .user-req-details{
+
+} */
