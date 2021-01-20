@@ -9,12 +9,12 @@ export default function Delete() {
         console.log("delete clicked");
         axios.post("/delete").then(() => {
             console.log("dlete acc");
-            // location.replace("/");
+            location.replace("/");
         });
     }
 
     return (
-        <>
+        <div className="deleteAcc">
             <h1>Would you like to delete your account?</h1>
             <p>
                 This process is final and all data will be erased, are you sure
@@ -28,6 +28,6 @@ export default function Delete() {
             >
                 Delete
             </Button>
-        </>
+        </div>
     );
 }

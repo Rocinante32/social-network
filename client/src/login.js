@@ -1,7 +1,7 @@
 import { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 
 export default class Registration extends Component {
     constructor() {
@@ -10,19 +10,14 @@ export default class Registration extends Component {
     }
 
     handleChange(e) {
-        this.setState(
-            {
-                //name of input field: user input
-                [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state in handleChange: ", this.state)
-        );
+        this.setState({
+            //name of input field: user input
+            [e.target.name]: e.target.value,
+        });
     }
 
     handleClick() {
         //send off user input to the server using axios POST registration
-        console.log("button clicked");
-        console.log("state of submit: ", this.state);
         const self = this;
         axios
             .post("/login", this.state)
@@ -45,22 +40,30 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div>
+            <div className="login">
                 {this.state.error && <p>Something went wrong</p>}
                 <h1>Login</h1>
-                <input
+                <TextField
                     onChange={(e) => this.handleChange(e)}
                     name="email"
                     placeholder="email"
                     type="text"
+                    id="standard-basic"
                 />
-                <input
+                <TextField
                     onChange={(e) => this.handleChange(e)}
                     name="password"
                     placeholder="password"
                     type="password"
+                    id="standard-basic"
                 />
-                <button onClick={() => this.handleClick()}>submit</button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.handleClick()}
+                >
+                    submit
+                </Button>
                 <div>
                     <Link to="/reset">Click here to reset your password</Link>
                 </div>

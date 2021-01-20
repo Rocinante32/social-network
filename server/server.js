@@ -401,7 +401,51 @@ app.post("/unfriend", (req, res) => {
 //////////////// Delete Acc Route /////////////////
 
 app.post("/delete", (req, res) => {
-    console.log("delete route hit"), res.sendStatus(200);
+    console.log("delete route hit");
+    const id = req.session.userId;
+    db.findById(id)
+        .then(({ rows }) => {
+            console.log("rows from db are: ", rows);
+            let path = rows[0].profile_pic.split("t/");
+            let params = {
+                Bucket: "tomsimageboardbucket",
+                Key: path[1],
+            };
+            // console.log("params from aws delete: ", params);
+            s3.delete(params, function (err, data) {
+                if (err) {
+                    console.log(err, err.stack);
+                } else {
+                    console.log(data);
+                }
+            });
+        })
+        .then(() => {
+            friendship
+                .deleteFromFriendships(id)
+                .then((res) => {
+                    console.log("friends deleted: ", res);
+                })
+                .then(() => {
+                    db.deleteFromChat(id)
+                        .then((res) => {
+                            console.log("deleted chats: ", res);
+                        })
+                        .then(() => {
+                            db.deleteFromUsers(id).then((res) => {
+                                console.log("deleted from users: ", res);
+                            });
+                        });
+                })
+                .catch((err) => {
+                    console.log("error in delete route: ", err);
+                });
+        })
+        .catch((err) => {
+            console.log("error in delete route: ", err);
+        });
+    req.session.userId = null;
+    res.sendStatus(200);
 });
 
 //////////////// Redirect/Welcome Route /////////////////

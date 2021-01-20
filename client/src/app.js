@@ -6,7 +6,6 @@ import Uploader from "./uploader";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
-import Logout from "./logout";
 import Friends from "./friends";
 import Chat from "./chat";
 import Delete from "./deleteAcc";
@@ -90,8 +89,23 @@ export default class App extends Component {
                             >
                                 <i className="fas fa-user-friends"></i>
                             </Button>
+                            <Button
+                                color="inherit"
+                                className="button"
+                                component={Link}
+                                to="/users"
+                            >
+                                <i className="fas fa-search"></i>
+                            </Button>
+                            <Button
+                                color="inherit"
+                                className="button"
+                                component={Link}
+                                to="/chat"
+                            >
+                                <i className="fas fa-comments"></i>
+                            </Button>
 
-                            <Logout />
                             <ProfilePic
                                 first={this.state.first}
                                 last={this.state.last}

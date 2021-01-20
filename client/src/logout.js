@@ -15,7 +15,11 @@ export default function Logout() {
 
     return (
         <>
-            <Button color="inherit" className="button" onClick={() => handleClick()}>
+            <Button
+                color="inherit"
+                className="button"
+                onClick={() => handleClick()}
+            >
                 Logout
             </Button>
         </>

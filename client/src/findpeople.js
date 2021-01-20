@@ -34,22 +34,28 @@ export default function FindPeople() {
             )}
 
             <p>Use the search to find users by name</p>
-            <TextField id="standard-basic" label="Search here ..." />
-            <input
+            <TextField
+                id="standard-basic"
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Type user here..."
+                label="Search here ..."
             />
             {!users.length && <p>No users found</p>}
 
-            <div>
+            <div className="foundUsers">
                 {users.map((user) => (
-                    <div key={user.id}>
-                        <a href={`/user/${user.id}`}>
-                            {user.first} {user.last}
+                    <div className="user" key={user.id}>
+                        {!user.profile_pic && (
+                            <img src="../default-profile.png" />
+                        )}
+                        {user.profile_pic && (
                             <img
                                 src={user.profile_pic}
                                 alt={`${user.first} ${user.last}`}
                             />
+                        )}
+
+                        <a href={`/user/${user.id}`}>
+                            {user.first} {user.last}
                         </a>
                     </div>
                 ))}

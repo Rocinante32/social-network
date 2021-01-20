@@ -20,10 +20,14 @@ export default function Chat() {
                 <div className="chat-container">
                     {chatMessages.map((msg) => (
                         <div key={msg.id} className="message">
-                            <img src={msg.profile_pic} />
-                            <h3>{msg.first + " " + msg.last}</h3>
-                            <p>{msg.created_at}</p>
-                            <p>{msg.message}</p>
+                            <div className="messageUser">
+                                <img src={msg.profile_pic} />
+                                <p>{msg.first + " " + msg.last}</p>
+                            </div>
+                            <div className="messageTxt">
+                                <p>{msg.message}</p>
+                                <p className="messageDate">{msg.created_at}</p>
+                            </div>
                         </div>
                     ))}
                     <textarea onKeyDown={handleKeyDown} />

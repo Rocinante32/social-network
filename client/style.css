@@ -69,6 +69,21 @@ body {
 #login {
     padding: 25px;
 }
+.login {
+    text-align: center;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    justify-content: center;
+    margin: auto;
+    justify-content: space-evenly;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+}
 
 #navbar .profile-pic {
     object-fit: cover;
@@ -118,6 +133,7 @@ body {
     width: 60%;
     margin: auto;
     text-align: center;
+    padding-top: 15px;
 }
 
 .chat-container {
@@ -133,7 +149,9 @@ body {
     width: 99%;
 }
 .message {
-    height: 75px;
+    display: flex;
+    /* flex-direction: column; */
+    height: 15vh;
     text-align: center;
     border-bottom: 1px dashed lightgray;
 }
@@ -144,6 +162,32 @@ body {
     width: 65px;
     height: 65px;
     border-radius: 30%;
+}
+
+.messageUser {
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20vw;
+    padding: 2px;
+}
+
+.messageUser p {
+    margin: 2px;
+}
+
+.messageTxt {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.messageDate {
+    margin: 0;
+    font-size: 12px;
+    font-style: italic;
 }
 
 .user {
@@ -157,8 +201,9 @@ body {
 .user img {
     object-fit: cover;
     width: 20vw;
-    height: 20vh;
+    height: 24vh;
     margin: auto;
+    border-radius: 10px;
 }
 
 .user h3 {
@@ -167,12 +212,14 @@ body {
 
 .friends {
     display: flex;
-    height: 35vh;
+    flex-flow: wrap;
+    justify-content: space-evenly;
 }
 
 .wannabes {
     display: flex;
-    height: 35vh;
+    flex-flow: wrap;
+    justify-content: space-evenly;
 }
 
 .smallerButton {
@@ -182,6 +229,31 @@ body {
 
 .editProf {
     height: 25vh;
+}
+
+.editProf textarea {
+    width: 35vw;
+    height: 10vh;
+    margin-top: 10px;
+}
+
+.foundUsers {
+    flex-flow: wrap;
+    display: flex;
+    justify-content: space-evenly;
+}
+.deleteAcc {
+    text-align: center;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    justify-content: space-between;
+    margin: auto;
+}
+
+div.pic-div:nth-child(2) > img:nth-child(2) {
+    display: block;
 }
 
 /* .user-req-details{

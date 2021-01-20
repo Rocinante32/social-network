@@ -51,3 +51,11 @@ module.exports.getFriendsAndReq = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.deleteFromFriendships = (user_id) => {
+    const q = `DELETE FROM friendships 
+                WHERE sender_id = ($1)
+                OR recipient_id = ($1)`;
+    const params = [user_id];
+    return db.query(q, params);
+};

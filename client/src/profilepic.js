@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "./axios";
 import { Link } from "react-router-dom";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 
@@ -17,6 +18,14 @@ export default function ProfilePic({
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    function handleLogout() {
+        console.log("logout clicked");
+        axios.post("/logout").then(() => {
+            console.log("logged out");
+            location.replace("/");
+        });
+    }
     {
         return (
             <div className="pic-div">
@@ -35,7 +44,6 @@ export default function ProfilePic({
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem
                         onClick={handleClose}
                         component={Link}
@@ -43,8 +51,7 @@ export default function ProfilePic({
                     >
                         My account
                     </MenuItem>
-
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
                 {!profile_pic && (
                     <img

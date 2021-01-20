@@ -65,12 +65,12 @@ module.exports.updateBio = (id, bio) => {
 };
 
 module.exports.findNewUsers = () => {
-    const q = `SELECT * FROM users ORDER BY id DESC LIMIT 3`;
+    const q = `SELECT * FROM users ORDER BY id DESC LIMIT 9`;
     return db.query(q);
 };
 
 module.exports.findUsers = (search) => {
-    const q = `SELECT first, last, bio, profile_pic, id FROM users WHERE first ILIKE $1 LIMIT 3;`;
+    const q = `SELECT first, last, bio, profile_pic, id FROM users WHERE first ILIKE $1 LIMIT 6;`;
     const params = [search + "%"];
     return db.query(q, params);
 };
@@ -94,6 +94,18 @@ module.exports.addToMessages = (user_id, message) => {
 
 module.exports.findById = (user_id) => {
     const q = `SELECT * FROM users WHERE id = ($1)`;
+    const params = [user_id];
+    return db.query(q, params);
+};
+
+module.exports.deleteFromUsers = (user_id) => {
+    const q = `DELETE FROM users WHERE id = ($1)`;
+    const params = [user_id];
+    return db.query(q, params);
+};
+
+module.exports.deleteFromChat = (user_id) => {
+    const q = `DELETE FROM chat_messages WHERE user_id = ($1)`;
     const params = [user_id];
     return db.query(q, params);
 };

@@ -28,8 +28,8 @@ export default function Friends() {
 
     return (
         <>
-            <p>friends App</p>
-            {/* <img src={wannabes[0].profile_pic} /> */}
+            <h3>Your Friends</h3>
+            {!friends && <p>You have no friends...</p>}
             <div className="friends">
                 {friends.map((user) => (
                     <div className="user" key={user.id}>
@@ -49,7 +49,7 @@ export default function Friends() {
                     </div>
                 ))}
             </div>
-            <p>requests</p>
+            <h3>Pending Requests</h3>
 
             <div className="wannabes">
                 {wannabes.map((user) => (
