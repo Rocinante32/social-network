@@ -9,6 +9,7 @@ import FindPeople from "./findpeople";
 import Logout from "./logout";
 import Friends from "./friends";
 import Chat from "./chat";
+import Delete from "./deleteAcc";
 import { Button, Container } from "@material-ui/core";
 
 export default class App extends Component {
@@ -147,6 +148,11 @@ export default class App extends Component {
                                 exact
                                 path="/friends"
                                 render={() => <Friends />}
+                            />
+                            <Route
+                                exact
+                                path="/delete"
+                                render={() => <Delete />}
                             />
                             <Route exact path="/chat" render={() => <Chat />} />
                         </Container>

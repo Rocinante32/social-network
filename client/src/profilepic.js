@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Menu, MenuItem } from "@material-ui/core";
 
 export default function ProfilePic({
     first,
@@ -6,26 +8,62 @@ export default function ProfilePic({
     profile_pic,
     toggleUploader,
 }) {
-    return (
-        <div className="pic-div">
-            <h3>{first}</h3>
-            {!profile_pic && (
-                <img
-                    src="../default-profile.png"
-                    alt="default pic"
-                    className="profile-pic"
-                    onClick={() => toggleUploader()}
-                />
-            )}
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-            {profile_pic && (
-                <img
-                    src={profile_pic}
-                    alt={(first, last)}
-                    className="profile-pic"
-                    onClick={() => toggleUploader()}
-                />
-            )}
-        </div>
-    );
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    {
+        return (
+            <div className="pic-div">
+                <Button
+                    className="button"
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                >
+                    {first}
+                </Button>
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/delete"
+                    >
+                        My account
+                    </MenuItem>
+
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+                {!profile_pic && (
+                    <img
+                        src="../default-profile.png"
+                        alt="default pic"
+                        className="profile-pic"
+                        onClick={() => toggleUploader()}
+                    />
+                )}
+
+                {profile_pic && (
+                    <img
+                        src={profile_pic}
+                        alt={(first, last)}
+                        className="profile-pic"
+                        onClick={() => toggleUploader()}
+                    />
+                )}
+            </div>
+        );
+    }
 }

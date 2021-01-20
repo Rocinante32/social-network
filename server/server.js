@@ -225,12 +225,31 @@ app.post("/upload", upload.single("image"), s3.upload, (req, res) => {
     const url = s3Url + req.file.filename;
     console.log("post req made, and the url is: ", url);
     const id = req.session.userId;
-    console.log("id: ", id);
+    db.findById(id)
+        .then(({ rows }) => {
+            console.log("rows from db are: ", rows);
+            let path = rows[0].profile_pic.split("t/");
+            let params = {
+                Bucket: "tomsimageboardbucket",
+                Key: path[1],
+            };
+            // console.log("params from aws delete: ", params);
+            s3.delete(params, function (err, data) {
+                if (err) {
+                    console.log(err, err.stack);
+                } else {
+                    console.log(data);
+                }
+            });
+        })
+        .catch((err) => {
+            console.log("err in find if pic existing: ", err);
+        });
     /////////////////////// db query to add pic to user entry ////////////////
     if (req.file) {
         db.addImage(url, id)
             .then((response) => {
-                console.log("res is : ", response);
+                // console.log("res is : ", response);
                 console.log("added to db");
                 res.json({ url });
             })
@@ -377,6 +396,12 @@ app.post("/unfriend", (req, res) => {
     friendship.unfriend(userId, otherUserId).then(() => {
         res.json({ otherUserId: otherUserId });
     });
+});
+
+//////////////// Delete Acc Route /////////////////
+
+app.post("/delete", (req, res) => {
+    console.log("delete route hit"), res.sendStatus(200);
 });
 
 //////////////// Redirect/Welcome Route /////////////////

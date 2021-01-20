@@ -55,6 +55,12 @@ body {
     width: 200px;
     justify-content: space-evenly;
 }
+
+.pic-div button {
+    height: 100%;
+    font-size: 20px;
+    font-weight: bold;
+}
 .button {
     color: whitesmoke;
     text-decoration: none;

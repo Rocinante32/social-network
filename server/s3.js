@@ -42,3 +42,20 @@ module.exports.upload = (req, res, next) => {
             res.sendStatus(500);
         });
 };
+
+module.exports.delete = (params) => {
+    const promise = s3.deleteObject(params).promise(); // this returns a promise
+    promise
+        .then(() => {
+            // it worked!!!
+            console.log("amazon delete complete");
+            fs.unlink(params.Key, () => {});
+            //this is called a no op function (no operation func)
+            return;
+        })
+        .catch((err) => {
+            // uh oh
+            console.log("something went wrong when deleting from S3: ", err);
+            return;
+        });
+};
