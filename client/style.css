@@ -32,6 +32,17 @@ body {
 
 #icon-div i {
     font-size: 25px;
+
+    float: right;
+    padding: 5px;
+}
+
+#closeIcon {
+    color: lightcoral;
+}
+
+#closeIcon:hover {
+    cursor: pointer;
 }
 
 #icon-div .button {
@@ -104,9 +115,9 @@ body {
     margin: auto;
 }
 .profile img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
+    width: 45vw;
+    height: 45vh;
+    object-fit: scale-down;
 }
 #modal {
     position: fixed;
@@ -185,7 +196,6 @@ body {
 }
 
 .messageDate {
-    margin: 0;
     font-size: 12px;
     font-style: italic;
 }
@@ -254,6 +264,10 @@ body {
 
 div.pic-div:nth-child(2) > img:nth-child(2) {
     display: block;
+}
+
+.bodyTextCol {
+    color: cornflowerblue;
 }
 
 /* .user-req-details{

@@ -3,12 +3,17 @@ import { Button } from "@material-ui/core";
 import { HashRouter, Route, Link } from "react-router-dom";
 
 export default function NavBar(props) {
-    const [type, setType] = useState("");
+    const [login, setLogin] = useState(true);
+
+    function toggleLogin() {
+        console.log("Login toggled");
+        setLogin(!login);
+    }
 
     /// need to update the state on a click to allow the component to re render and show correct button type
 
-    console.log("state from navbar", props.type);
-    if (props.type == "login") {
+    console.log("state from navbar", login);
+    if (login) {
         return (
             <HashRouter>
                 <div id="navbar">
@@ -22,6 +27,7 @@ export default function NavBar(props) {
                             component={Link}
                             to="/login"
                             id="login"
+                            onClick={() => toggleLogin()}
                         >
                             Login
                         </Button>
@@ -29,7 +35,7 @@ export default function NavBar(props) {
                 </div>
             </HashRouter>
         );
-    } else if (props.type == "register") {
+    } else {
         return (
             <HashRouter>
                 <div id="navbar">
@@ -43,6 +49,7 @@ export default function NavBar(props) {
                             component={Link}
                             to="/"
                             id="login"
+                            onClick={() => toggleLogin()}
                         >
                             Register
                         </Button>

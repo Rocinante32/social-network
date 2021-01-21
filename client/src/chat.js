@@ -15,7 +15,7 @@ export default function Chat() {
 
     return (
         <>
-            <h1>Welcome to the chat</h1>
+            <h1 className="bodyTextCol">Welcome to the chat</h1>
             {chatMessages && (
                 <div className="chat-container">
                     {chatMessages.map((msg) => (

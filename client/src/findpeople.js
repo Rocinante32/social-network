@@ -25,7 +25,7 @@ export default function FindPeople() {
     console.log("state after set outside of effect: ", users);
     // console.log("********* RENDERING <FindPeople /> *************");
     return (
-        <div>
+        <div className="bodyTextCol">
             <h1>Find People</h1>
             {!query && (
                 <>

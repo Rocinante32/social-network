@@ -28,7 +28,7 @@ export default function Friends() {
 
     return (
         <>
-            <h3>Your Friends</h3>
+            <h3 className="bodyTextCol">Your Friends</h3>
             {!friends && <p>You have no friends...</p>}
             <div className="friends">
                 {friends.map((user) => (
@@ -49,7 +49,7 @@ export default function Friends() {
                     </div>
                 ))}
             </div>
-            <h3>Pending Requests</h3>
+            <h3 className="bodyTextCol">Pending Requests</h3>
 
             <div className="wannabes">
                 {wannabes.map((user) => (

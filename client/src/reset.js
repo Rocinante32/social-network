@@ -1,7 +1,7 @@
 import { Component } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 
 export default class Reset extends Component {
     constructor() {
@@ -76,49 +76,31 @@ export default class Reset extends Component {
     }
 
     render() {
-        const navbar = (
-            <>
-                <div id="navbar">
-                    <div id="logo-div">
-                        <h1 id="logo">fakebook</h1>
-                    </div>
-                    <div id="icon-div">
-                        <Button
-                            color="inherit"
-                            className="button"
-                            component={Link}
-                            to="/"
-                            id="login"
-                        >
-                            Register
-                        </Button>
-                    </div>
-                </div>
-            </>
-        );
         if (this.state.view === 1) {
             return (
-                <div>
-                    {navbar}
+                <div className="login">
                     {this.state.error && <p>Something went wrong</p>}
-                    <h1>Please enter your email address</h1>
-                    <input
+                    <h1 className="bodyTextCol">
+                        Please enter your email address
+                    </h1>
+                    <TextField
                         onChange={(e) => this.handleChange(e)}
                         name="email"
                         placeholder="email"
                         type="text"
                     />
-                    <button onClick={() => this.handleReset()}>submit</button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => this.handleReset()}
+                    >
+                        submit
+                    </Button>
                 </div>
             );
         } else if (this.state.view === 2) {
             return (
-                <div>
-                    <div id="navbar">
-                        <div id="logo-div">
-                            <h1 id="logo">fakebook</h1>
-                        </div>
-                    </div>
+                <div className="bodyTextCol login">
                     {this.state.error && (
                         <p>
                             Something went wrong, please try entering your reset
@@ -126,30 +108,31 @@ export default class Reset extends Component {
                         </p>
                     )}
                     <h1>Please enter the reset code and new password</h1>
-                    <input
+                    <TextField
                         onChange={(e) => this.handleChange(e)}
                         name="code"
                         placeholder="code"
                         type="text"
                         value={this.state.code}
                     />
-                    <input
+                    <TextField
                         onChange={(e) => this.handleChange(e)}
                         name="password"
                         placeholder="password"
                         type="password"
                     />
-                    <button onClick={() => this.handleVerify()}>submit</button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => this.handleVerify()}
+                    >
+                        submit
+                    </Button>
                 </div>
             );
         } else if (this.state.view === 3) {
             return (
-                <div>
-                    <div id="navbar">
-                        <div id="logo-div">
-                            <h1 id="logo">fakebook</h1>
-                        </div>
-                    </div>
+                <div className="bodyTextCol login">
                     <h3>Your password has been updated!</h3>
                     <div>
                         <p>

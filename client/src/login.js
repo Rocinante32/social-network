@@ -40,7 +40,7 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div className="login">
+            <div className="login bodyTextCol">
                 {this.state.error && <p>Something went wrong</p>}
                 <h1>Login</h1>
                 <TextField

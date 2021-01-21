@@ -43,8 +43,9 @@ export default class Uploader extends Component {
             <div id="modalLayer">
                 <div id="modal">
                     <i
+                        id="closeIcon"
                         className="far fa-window-close"
-                        onClick={() => this.toggleUploader()}
+                        onClick={() => this.props.toggleUploader()}
                     ></i>
                     <p>Select a profile picture</p>
                     <Button>
@@ -55,7 +56,12 @@ export default class Uploader extends Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                     </Button>
-                    <Button onClick={(e) => this.handleUpload(e)}>
+                    <Button
+                        className="smallerButton"
+                        variant="contained"
+                        color="primary"
+                        onClick={(e) => this.handleUpload(e)}
+                    >
                         Submit
                     </Button>
                 </div>
